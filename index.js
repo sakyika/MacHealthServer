@@ -6,10 +6,10 @@ const cors = require('cors');
 
 require('./models/user')
 
-const keys = require('./config/keys');
+const baseConfig = require('./config/baseConfig');
 
 
-mongoose.connect(keys.mongoUri);
+mongoose.connect(baseConfig.mongoUri);
 
 const app = express();
 
