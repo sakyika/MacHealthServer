@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
 
-require('./models/user')
+require('./models/User')
 
 const baseConfig = require('./config/baseConfig');
 
