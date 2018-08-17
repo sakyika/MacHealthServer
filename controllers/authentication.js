@@ -13,7 +13,7 @@ const userToken = (user) => {
     const timestamp = new Date().getTime();
     return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
 }
-/*
+
 const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
@@ -23,7 +23,8 @@ const transporter = nodemailer.createTransport({
         pass: 'x3FfF2hgRDhQEpKJ16' // generated ethereal password
     }
 });
-*/
+
+/*
 
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -32,6 +33,7 @@ const transporter = nodemailer.createTransport({
         pass: config.GMAIL_PASSWORD
     }
 });
+*/
 
 exports.signin = (req, res, next) => {
     res.send({ token: userToken(req.user) });
