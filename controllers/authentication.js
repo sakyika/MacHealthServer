@@ -13,7 +13,7 @@ const userToken = (user) => {
     const timestamp = new Date().getTime();
     return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
 }
-
+/*
 const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
@@ -23,17 +23,17 @@ const transporter = nodemailer.createTransport({
         pass: 'x3FfF2hgRDhQEpKJ16' // generated ethereal password
     }
 });
+*/
 
-const sendConfirmation = (args, emailToken) => {
-    
-    const confirmationUrl = `${SERVER_ROOT_URL}/confirmation/${emailToken}`;
+const tran
 
-    transporter.sendMail({
-        to: args.email,
-        subject: 'Confirm Email',
-        html: `Please click this email to confirm your email: <a href="${confirmationUrl}">${confirmationUrl}</a>`,
-    });
-}
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: config.GMAIL_USER,
+        pass: config.GMAIL_PASSWORD
+    }
+});
 
 exports.signin = (req, res, next) => {
     res.send({ token: userToken(req.user) });
