@@ -25,8 +25,6 @@ const transporter = nodemailer.createTransport({
 });
 */
 
-const tran
-
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
