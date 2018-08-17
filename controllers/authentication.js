@@ -24,7 +24,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-/*
 
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -33,6 +32,20 @@ const transporter = nodemailer.createTransport({
         pass: config.GMAIL_PASSWORD
     }
 });
+
+
+/*
+
+const sendConfirmation = (args, emailToken) => {
+    
+    const confirmationUrl = `${SERVER_ROOT_URL}/confirmation/${emailToken}`;
+     transporter.sendMail({
+        to: args.email,
+        subject: 'Confirm Email',
+        html: `Please click this email to confirm your email: <a href="${confirmationUrl}">${confirmationUrl}</a>`,
+    });
+}
+
 */
 
 exports.signin = (req, res, next) => {
@@ -42,8 +55,6 @@ exports.signin = (req, res, next) => {
 exports.signup = (req, res, next) => {
     const { email } = req.body;
     const { password } = req.body;
-
-    console.log(`email: ${email}, password: ${password}`);
 
     if ( !email || !password) {
         return res.status(422).send({ error: 'You must provide email and password'});
@@ -69,6 +80,8 @@ exports.signup = (req, res, next) => {
     newUser.save( (err) => {
         res.json({ message: "Email confirmation sent!" });
     });
+
+    console.log(`email: ${email}, password: ${password}`);
 
     sendConfirmation(newUser, userToken(newUser));
 
