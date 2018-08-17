@@ -20,7 +20,7 @@ require('./routes/authRoutes')(app);
 
 app.get('/', (requestAnimationFrame, res) => {
     res.send({ message: 'Welcome McMaster Health Sciences!'});
-});
+}); 
 
 const PORT = process.env.PORT || 5000;
 
