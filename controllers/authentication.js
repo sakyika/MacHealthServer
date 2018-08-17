@@ -1,13 +1,37 @@
 const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
+const nodemailer = require('nodemailer');
 
-const config = require('../config/keys');
+const config = require('../config/baseConfig');
 
 const UserModelClass = mongoose.model('users');
+
+const SERVER_ROOT_URL = "http://localhost:5000";
 
 const userToken = (user) => {
     const timestamp = new Date().getTime();
     return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+}
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'pj55xncdxkaztz7o@ethereal.email', // generated ethereal user
+        pass: 'x3FfF2hgRDhQEpKJ16' // generated ethereal password
+    }
+});
+
+const sendConfirmation = (args, emailToken) => {
+    
+    const confirmationUrl = `${SERVER_ROOT_URL}/confirmation/${emailToken}`;
+
+    transporter.sendMail({
+        to: args.email,
+        subject: 'Confirm Email',
+        html: `Please click this email to confirm your email: <a href="${confirmationUrl}">${confirmationUrl}</a>`,
+    });
 }
 
 exports.signin = (req, res, next) => {
@@ -17,6 +41,8 @@ exports.signin = (req, res, next) => {
 exports.signup = (req, res, next) => {
     const { email } = req.body;
     const { password } = req.body;
+
+    console.log(`email: ${email}, password: ${password}`);
 
     if ( !email || !password) {
         return res.status(422).send({ error: 'You must provide email and password'});
@@ -33,9 +59,17 @@ exports.signup = (req, res, next) => {
             email,
             password
         });
-
+/*
         newUser.save( (err) => {
             res.json({ token: userToken(newUser) });
         });
+*/
+
+    newUser.save( (err) => {
+        res.json({ message: "Email confirmation sent!" });
+    });
+
+    sendConfirmation(newUser, userToken(newUser));
+
     });
 }

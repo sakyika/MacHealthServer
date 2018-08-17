@@ -5,7 +5,12 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
     email: { type: String, unique: true, lowercase: true },
-    password: String
+    password: String, 
+    confirmed: { type: Boolean, default: false },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    }
 });
 
 userSchema.pre('save', function(next) {
