@@ -6,7 +6,8 @@ const config = require('../config/baseConfig');
 
 const UserModelClass = mongoose.model('users');
 
-const SERVER_ROOT_URL = "http://localhost:5000";
+//const SERVER_ROOT_URL = "http://localhost:5000";
+const SERVER_ROOT_URL = "https://nameless-hollows-27940.herokuapp.com";
 
 const userToken = (user) => {
     const timestamp = new Date().getTime();

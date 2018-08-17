@@ -23,7 +23,7 @@ module.exports = (app) => {
     app.post('/signin', requireSignin, Authentication.signin);
     app.post('/signup', Authentication.signup);
     
-    app.get('/confirmation/:token', (req, res, next) => {
+    app.get('/confirmation/:token', (req, res, next) => {console.log("_________________________"+config.clientServer + "/signin");
 
         const { sub } = jwt.decode(req.params.token, config.secret);
 
@@ -35,7 +35,7 @@ module.exports = (app) => {
     });
 
 
-        return res.redirect('http://localhost:3000/signin');
+        return res.redirect(config.clientServer + "/signin");
 
       });
 };
